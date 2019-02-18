@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Number guessing game</title>
+
+  <style>
+    html {
+        font-family: sans-serif;
+      }
+
+      body {
+        width: 50%;
+        max-width: 800px;
+        min-width: 480px;
+        margin: 0 auto;
+      }
+
+      .lastResult {
+        color: white;
+        padding: 3px;
+      }
+    </style>
+</head>
+<!-- คอมเม้นท์ -->
+<body>
+  <h1>Number guessing game</h1> <!-- หัวข้อ -->
+
+  <p>We have selected a random number between 1 and 100. See if you can guess it in 10 turns or fewer. We'll tell you
+    if your guess was too high or too low.</p>   <!-- คำอธิบาย -->
+
+  <div class="form">
+    <label for="guessField">Enter a guess: </label><!-- แสดง Enter a guess โดยใช้  for วนลูป -->
+    <input type="text" id="guessField" class="guessField"><!-- กล่องให้ผู้เล่นพิมพ์ -->
+    <input type="submit" value="Submit guess" class="guessSubmit"> <!-- ปุ่ม Submit -->
+  </div>
+
+  <div class="resultParas"><!-- ชื่อคลาส -->
+    <p class="guesses"></p> <!-- เมื่อใส่เลขแล้วกด Submit ข้อความต่างๆจะแสดงในนี้ แสดงตัวเลขที่ใส่มาแต่ละครั้ง -->
+    <p class="lastResult"></p><!-- แสดงว่าถูกหรือผิด -->
+    <p class="lowOrHi"></p><!-- บอกว่า มากไปหรือน้อยไป -->
+  </div>
+  <ul id="test"></ul>
+  <script>
+    let randomNumber = Math.floor(Math.random() * 100) + 1;//Random Number ระหว่าง1-100
+    const guesses = document.querySelector('.guesses');// const คือ ค่าคงที่,เริ่มต้นด้วยจุดคือหมายถึงคลาส,querySelector ส่งค่ากลับ
+    const lastResult = document.querySelector('.lastResult');// const คือ ค่าคงที่,เริ่มต้นด้วยจุดคือหมายถึงคลาส,querySelector ส่งค่ากลับ
+    const lowOrHi = document.querySelector('.lowOrHi');// const คือ ค่าคงที่,เริ่มต้นด้วยจุดคือหมายถึงคลาส,querySelector ส่งค่ากลับ
+    const guessSubmit = document.querySelector('.guessSubmit');// const คือ ค่าคงที่,เริ่มต้นด้วยจุดคือหมายถึงคลาส,querySelector ส่งค่ากลับ
+    const guessField = document.querySelector('.guessField');// const คือ ค่าคงที่,เริ่มต้นด้วยจุดคือหมายถึงคลาส,querySelector ส่งค่ากลับ
+    let guessCount = 1;// ให้ guessCount มีค่าเท่ากับ 1
+    let resetButton;
+
+    function checkGuess() {
+      let userGuess = Number(guessField.value);//เป็นตัวเลขที่อยู่ในtextBox
+      if (guessCount === 1) {//เช็ค guessCount ว่าเท่ากับ 1 ไหม
+        guesses.textContent = 'Previous guesses: ';// ถ้า guessCount ว่าเท่ากับ 1 เอาข้อความ Previous guesses: ไปแสดง
+      }
+
+      guesses.textContent += userGuess + ' ';// เอาข้อมูลมาต่อ
+
+      if (userGuess === randomNumber) { //เช็คว่า userGuess === randomNumber ไหม
+        lastResult.textContent = 'Congratulations! You got it right!';//ถ้าจริงแสดง Congratulations! You got it right!
+        lastResult.style.backgroundColor = 'green';//ใส่สี background
+        lowOrHi.textContent = '';// แสดงข้อความว่างๆ
+        setGameOver();
+      } else if (guessCount === 10) {//เช็คว่าเดาครบ 10 รอบยัง
+        lastResult.textContent = '!!!GAME OVER!!!'; //ถ้าครบแล้ว แสดง !!!GAME OVER!!!
+        lowOrHi.textContent = '';
+        setGameOver();
+      } else { // ถ้าเป็นเท็จ
+        lastResult.textContent = 'Wrong!';//แสดง Wrong!
+        lastResult.style.backgroundColor = 'red';//ใส่สี background
+        if (userGuess < randomNumber) {// ถ้าข้อมูลที่รับมาน้อยกว่า Random 
+          lowOrHi.textContent = 'Last guess was too low!';// เป็นจริงแสดง Last guess was too low!   
+        } else if (userGuess > randomNumber) {//ถ้าเป็นเท็จมาเช็คว่าข้อมูลที่รับมามากกว่า Randomหรือไม่
+          lowOrHi.textContent = 'Last guess was too high!';// ถ้าเป็นจริง แสดง Last guess was too high!
+        }
+      }
+
+      guessCount++;//guessCount +  1
+      guessField.value = '';//guessField เป็นค่าว่าง
+      guessField.focus();//โฟกัสว่าต้องใส่ค่าตรงไหน กดปุ่มตรงไหน
+    }
+
+    guessSubmit.addEventListener('click', checkGuess);//เพิ่มตัวดักจับของปุ่ม Submit ถ้ามันถูก click ให้ไปฟังก์ชัน checkGuess
+
+    function setGameOver() {
+      guessField.disabled = true;// ใส่ข้อมูลไม่ได้
+      guessSubmit.disabled = true;//กดปุ่มไม่ได้
+      resetButton = document.createElement('button');//สร้างแทรกขึ้นมาเป็นประเภท Button
+      resetButton.textContent = 'Start new game';//ต่อท้ายแทรก p 
+      document.getElementById("test").appendChild(resetButton);
+      resetButton.addEventListener('click', resetGame);//ถัาถูก click ให้เรียก resetGame
+    }
+
+    function resetGame() {
+      guessCount = 1;//ให้ guessCount เท่ากับ 1
+      const resetParas = document.querySelectorAll('.resultParas p');//แทรก p ที่อยู่ใต้ resultParas มี 3 ตัว
+      for (let i = 0; i < resetParas.length; i++) {//วนลูป 3 รอบ
+        resetParas[i].textContent = '';//ถูกแทนที่ด้วยค่าว่าง
+      }
+
+      resetButton.parentNode.removeChild(resetButton);//ปุ่มใหม่ที่เพิ่งเพิ่มเข้ามา และให้parentลบChild
+      guessField.disabled = false;// ตั้งค่าให้ใส่ข้อมูลได้
+      guessSubmit.disabled = false;// ตั้งค่าให้ใส่ข้อมูลได้
+      guessField.value = '';//แสดงบรทัดว่าง
+      guessField.focus();//โฟกัสว่าต้องใส่ค่าตรงไหน กดปุ่มตรงไหน
+      lastResult.style.backgroundColor = 'white';//ใส่สี background
+      randomNumber = Math.floor(Math.random() * 100) + 1;// สุ่มเลข
+    }
+  </script>
+
+  <hr><!-- เส้นแนวนอน -->
+  <p>breaking it down into simple actionable tasks</p>
+  <pre> <!-- บอกเบาว์เซอร์ว่าข้อมูลเป็นแบบใด ให้แสดงออกมาเป็นแบบนั้นเลย -->
+1. Generate a random number between 1 and 100.
+2. Record the turn number the player is on. Start it on 1.
+3. Provide the player with a way to guess what the number is.
+4. Once a guess has been submitted first record it somewhere so the user can see their previous guesses.
+5. Next, check whether it is the correct number.
+6. If it is correct:
+    1.Display congratulations message.
+    2. Stop the player from being able to enter more guesses (this would mess the game up).
+    3. Display control allowing the player to restart the game.
+7. If it is wrong and the player has turns left:
+    1. Tell the player they are wrong.
+    2. Allow them to enter another guess.
+    3. Increment the turn number by 1.
+8. If it is wrong and the player has no turns left:
+    1. Tell the player it is game over.
+    2. Stop the player from being able to enter more guesses (this would mess the game up).
+    3. Display control allowing the player to restart the game.
+9.Once the game restarts, make sure the game logic and UI are completely reset, then go back to step 1.
+    </pre>
+</body>
+
+</html>
+guessnumber.html
+กำลังแสดง guessnumber.html
