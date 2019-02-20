@@ -3,18 +3,32 @@ var POSSIBLE_WORDS = ["obdurate","verisimilitude","defenestrate","obsequious","d
 var MAX_GUESSES = 6;
 
 var word = "?";
-var quesses = "";
+var guesses = "";
 var guessCount = MAX_GUESSES;
 
 function  newGame(){
 
     var randomIndex =parseInt(Math.random()* POSSIBLE_WORDS.length);
-    word = POSSIBLE_WORDS[randomIndex]
+    word = POSSIBLE_WORDS[randomIndex];
     guessCount = MAX_GUESSES;
     guesses = "";
     updatePage();
 }
 
+
+function guessLetter(){
+    var input = document.getElementById("guess");
+    var clue = document.getElementById("clue");
+    var letter = input.value;
+    if(guessCount == 0 || clue.innerHTML.indexOf("_")< 0 || guesses.indexOf(letter) >= 0){
+        return;
+    }
+    guesses += letter;
+    if(word.indexOf(letter)< 0){
+        guessCount--;
+    }
+    updatePage();
+}
 
 function updatePage(){
 
@@ -39,7 +53,7 @@ function updatePage(){
         guessArea.innerHTML = " You win!!!";
 
     }else{
-        guessArea.innerHTML = "Guesses" + guesses;
+        guessArea.innerHTML = "Guesses: " + guesses;
     }
 
 
