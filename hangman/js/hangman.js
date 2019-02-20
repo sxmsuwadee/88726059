@@ -1,0 +1,48 @@
+//
+var POSSIBLE_WORDS = ["obdurate","verisimilitude","defenestrate","obsequious","dissonant","toady","idempotent"];
+var MAX_GUESSES = 6;
+
+var word = "?";
+var quesses = "";
+var guessCount = MAX_GUESSES;
+
+function  newGame(){
+
+    var randomIndex =parseInt(Math.random()* POSSIBLE_WORDS.length);
+    word = POSSIBLE_WORDS[randomIndex]
+    guessCount = MAX_GUESSES;
+    guesses = "";
+    updatePage();
+}
+
+
+function updatePage(){
+
+    var clueString = "";
+    for( var i=0 ;i<word.length;i++){
+        var letter = word.charAt(i);
+        if(guesses.indexOf(letter)>=0){
+            clueString += letter + " ";
+        }else{
+            clueString += "_ ";
+        }
+        
+    }
+    var clue = document.getElementById("clue");
+    clue.innerHTML = clueString;
+
+
+    var guessArea = document.getElementById("guesses");
+    if(guessCount == 0){
+        guessArea.innerHTML = " You lose.";
+    }else if(clueString.indexOf("_")<0){
+        guessArea.innerHTML = " You win!!!";
+
+    }else{
+        guessArea.innerHTML = "Guesses" + guesses;
+    }
+
+
+    var image = document.getElementById("hangmanpic");
+    image.src ="img/hangman"+ guessCount +".gif";
+}
