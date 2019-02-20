@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Hangman</title>
+    <link href="hangman.css" type="text/css" rel="styesheet "/>
+    <script src="hangman.js" type="text/javascript"></script>
+</head>
+<body>
+    <div><img id="hangmanpic" src="img/hangman6.gif" alt="hangman" /></div>
+    <div id="clue">Press New Game to play!</div>
+    <div>
+        <input id="guess" type="text" size="1" maxlength="1"/>
+        <button onclick="guessLetter();">Guess</button>
+    </div>
+    <div id="newgamearea">
+        <button onclick="newGame();">New Game</button>
+    </div>
+    <div id="guesses"></div>
+</body>
+</html>
