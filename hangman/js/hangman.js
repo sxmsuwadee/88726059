@@ -9,7 +9,7 @@ var guessCount = MAX_GUESSES; //ให้guessCount มีค่าเท่า�
 function  newGame(){ // ฟังก์ชั่น เริ่มเกมใหม่
 
     var randomIndex =parseInt(Math.random()* POSSIBLE_WORDS.length);// สุ่ม index ของตำแหน่งคำใน POSSIBLE_WORDS  
-    word = POSSIBLE_WORDS[randomIndex];//ให้ word เท่ากับ 
+    word = POSSIBLE_WORDS[randomIndex];//ให้ word เท่ากับ POSSIBLE_WORDS ในตำแหน่งนั้นๆ
     guessCount = MAX_GUESSES;//ให้guessCount เท่ากับ MAX_GUESSES
     guesses = "";//guesses เป็นค่าว่าง
     updatePage();//อัพเดตขึ้นหน้าเพจ
@@ -42,11 +42,11 @@ function updatePage(){ //ฟังก์ชั่นอัพเดตหน้�
         }
         
     }
-    var clue = document.getElementById("clue");//
-    clue.innerHTML = clueString;//
+    var clue = document.getElementById("clue");//สร้าง clue เพื่อให้อิงไปยังตัวแปรที่อยู่ใน .html
+    clue.innerHTML = clueString;// ให้clue.innerHTML เท่ากับ clueString
 
 
-    var guessArea = document.getElementById("guesses");
+    var guessArea = document.getElementById("guesses");//สร้าง guessArea เพื่อให้อิงไปยังตัวแปรที่อยู่ใน .html
     if(guessCount == 0){//ถ้าguessCount เท่ากับ 0
         guessArea.innerHTML = " You lose."; //แสดงว่าแพ้ You lose.
     }else if(clueString.indexOf("_")<0){//แต่ถ้ามี _ น้อยกว่า 0
