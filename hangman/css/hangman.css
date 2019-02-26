@@ -1,4 +1,3 @@
-
 body{
     text-align: center;
 }
@@ -6,7 +5,10 @@ body{
     margin-top: 2em;
 }
 #clue, #guesses{
-    font-family: monospace;
-    font-size: 2em;
-    padding: 1em;
+font-family: monospace;
+font-size: 2em;
+padding: 1em;
+}
+#guess{
+    text-align: center;
 }
