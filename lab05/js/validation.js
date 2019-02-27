@@ -55,3 +55,41 @@ function validateUserID(uid,min,max) {
     }
     return true;
     }
+    function validatePassword (passid,min,max) {
+        var error = ""; 
+        var illegalChars = /[\W_]/; // allow only letters and numbers
+        
+        if (passid.value == "") {
+        passid.style.background = 'Yellow'; 
+        error = "กรุณาป้อน Password\n"; 
+        alert(error); 
+        passid.focus();
+        return false;
+
+        } else if ((passid.value.length < 7) || (passid.value.length > 15)) {
+        error = "Password ต้องมีความยาว "+min+"-"+max+" ตัวอักษร\n"; 
+        passid.style.background = 'Yellow'; 
+        alert(error);
+        passid.focus(); 
+        return false;
+        
+        } else if (illegalChars.test(passid.value)) {
+        error = "Password มีตัวอัการที่ไม่ได้รับอนุญาต\n"; 
+        passid.style.background = 'Yellow'; 
+        alert(error);
+        passid.focus(); 
+        return false;
+
+        } else if ((passid.value.search (/[a-zA-Z]+/) == -1) || (passid.value.search (/[0-9]+/) == -1)) {
+        error = "Password ต้องมีตัวเลขอย่างน้อย 1 ตัว \n"; 
+        passid.style.background = 'Yellow'; 
+        alert(error);
+        passid.focus(); 
+        return false;
+
+        } else {
+        passid.style.background = 'White'; 
+    }
+        return true;
+        }
+        
