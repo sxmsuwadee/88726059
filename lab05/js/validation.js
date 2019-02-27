@@ -24,4 +24,4 @@ function formValidation () {
         }
     }
     return false;
-    }
+}
